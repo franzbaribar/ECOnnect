@@ -4,7 +4,7 @@ import ActivityLogForm from '../components/forms/ActivityLogForm';
 import ReflectionForm from '../components/forms/ReflectionForm';
 import { mockApi } from '../services/mockApi';
 
-const LogActivityPage = () => {
+const LogActivityPage = ({ currentPage, onNavigate }) => {
   const [successMessage, setSuccessMessage] = useState('');
 
   const handleActivitySubmit = async (activityData) => {
@@ -32,7 +32,7 @@ const LogActivityPage = () => {
   };
 
   return (
-    <Layout>
+    <Layout currentPage={currentPage} onNavigate={onNavigate}>
       <div className="space-y-6">
         <div>
           <h1 className="text-2xl font-bold text-gray-900">Log Your Daily Impact</h1>

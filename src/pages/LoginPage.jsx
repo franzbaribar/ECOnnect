@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Leaf, Eye, EyeOff } from 'lucide-react';
 import { mockApi } from '../services/mockApi';
 
-const LoginPage = ({ onLogin }) => {
+const LoginPage = ({ onLogin, onNavigateToSignup }) => {
   const [formData, setFormData] = useState({
     email: '',
     password: ''
@@ -162,7 +162,10 @@ const LoginPage = ({ onLogin }) => {
             <div className="text-center">
               <p className="text-sm text-gray-600">
                 Don't have an account?{' '}
-                <a href="/signup" className="font-medium text-primary-600 hover:text-primary-500">
+                <a
+                  type="button"
+                  onClick={onNavigateToSignup}
+                  className="font-medium text-primary-600 hover:text-primary-500 underline bg-transparent border-none cursor-pointer">
                   Sign up for free
                 </a>
               </p>

@@ -1,14 +1,20 @@
 import React, { useState } from 'react';
 import { Leaf, BarChart3, PlusCircle, User, LogOut, Menu, X } from 'lucide-react';
 
-const Navbar = () => {
+const Navbar = ({ currentPage, onNavigate }) => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
 
   const handleLogout = () => {
     localStorage.removeItem('econnect_user');
     localStorage.removeItem('econnect_token');
-    window.location.reload(); // Simple way to reset app state
+    window.location.reload();
+  };
+
+  const handleNavClick = (e, page) => {
+    e.preventDefault();
+    onNavigate(page);
+    setIsMobileMenuOpen(false); // Close mobile menu on navigation
   };
 
   const currentUser = JSON.parse(localStorage.getItem('econnect_user') || '{}');
@@ -27,14 +33,24 @@ const Navbar = () => {
           <div className="hidden md:flex items-center space-x-8">
             <a 
               href="/" 
-              className="flex items-center space-x-2 text-gray-700 hover:text-primary-600 transition-colors"
+              onClick={(e) => handleNavClick(e, 'dashboard')}
+              className={`flex items-center space-x-2 transition-colors ${
+                currentPage === 'dashboard' 
+                  ? 'text-primary-600 font-medium' 
+                  : 'text-gray-700 hover:text-primary-600'
+              }`}
             >
               <BarChart3 className="h-5 w-5" />
               <span>Dashboard</span>
             </a>
             <a 
               href="/log" 
-              className="flex items-center space-x-2 text-gray-700 hover:text-primary-600 transition-colors"
+              onClick={(e) => handleNavClick(e, 'log')}
+              className={`flex items-center space-x-2 transition-colors ${
+                currentPage === 'log' 
+                  ? 'text-primary-600 font-medium' 
+                  : 'text-gray-700 hover:text-primary-600'
+              }`}
             >
               <PlusCircle className="h-5 w-5" />
               <span>Log Activity</span>
@@ -54,7 +70,7 @@ const Navbar = () => {
                 <Menu className="h-5 w-5" />
               )}
             </button>
-
+            
             {/* User dropdown */}
             <div className="relative">
               <button
@@ -66,7 +82,7 @@ const Navbar = () => {
                   {currentUser.name || 'User'}
                 </span>
               </button>
-
+              
               {/* Dropdown menu */}
               {isUserMenuOpen && (
                 <div className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg border z-50">
@@ -95,14 +111,24 @@ const Navbar = () => {
             <div className="px-2 pt-2 pb-3 space-y-1">
               <a
                 href="/"
-                className="flex items-center space-x-2 px-3 py-2 text-gray-700 hover:text-primary-600 hover:bg-gray-50 rounded-md"
+                onClick={(e) => handleNavClick(e, 'dashboard')}
+                className={`flex items-center space-x-2 px-3 py-2 rounded-md transition-colors ${
+                  currentPage === 'dashboard'
+                    ? 'text-primary-600 bg-primary-50 font-medium'
+                    : 'text-gray-700 hover:text-primary-600 hover:bg-gray-50'
+                }`}
               >
                 <BarChart3 className="h-5 w-5" />
                 <span>Dashboard</span>
               </a>
-              <a
-                href="/log"
-                className="flex items-center space-x-2 px-3 py-2 text-gray-700 hover:text-primary-600 hover:bg-gray-50 rounded-md"
+              <a 
+                href="/log" 
+                onClick={(e) => handleNavClick(e, 'log')}
+                className={`flex items-center space-x-2 px-3 py-2 rounded-md transition-colors ${
+                  currentPage === 'log'
+                    ? 'text-primary-600 bg-primary-50 font-medium'
+                    : 'text-gray-700 hover:text-primary-600 hover:bg-gray-50'
+                }`}
               >
                 <PlusCircle className="h-5 w-5" />
                 <span>Log Activity</span>
